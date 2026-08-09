@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Estación Fitness — Control de gym</title>
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<svg class="icon-sprite" aria-hidden="true">
+  <symbol id="icon-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></symbol>
+  <symbol id="icon-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></symbol>
+  <symbol id="icon-scale" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M8 15a4 4 0 0 1 8 0"/><line x1="12" y1="8" x2="12" y2="10"/></symbol>
+  <symbol id="icon-dumbbell" viewBox="0 0 24 24"><g transform="rotate(-45 12 12)"><rect x="2" y="9.5" width="5" height="5" rx="1.2"/><rect x="17" y="9.5" width="5" height="5" rx="1.2"/><line x1="7" y1="12" x2="17" y2="12"/></g></symbol>
+  <symbol id="icon-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/></symbol>
+  <symbol id="icon-plus" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></symbol>
+  <symbol id="icon-close" viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></symbol>
+  <symbol id="icon-chevron-left" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></symbol>
+  <symbol id="icon-chevron-right" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></symbol>
+  <symbol id="icon-trash" viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12"/><path d="M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/></symbol>
+  <symbol id="icon-repeat" viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></symbol>
+  <symbol id="icon-download" viewBox="0 0 24 24"><path d="M12 3v12"/><polyline points="7 10 12 15 17 10"/><path d="M5 21h14"/></symbol>
+  <symbol id="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="brand">
+    <svg viewBox="0 0 40 40" class="logo-badge" aria-hidden="true">
+      <defs>
+        <linearGradient id="efGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#7CF23F"/>
+          <stop offset="1" stop-color="#12820f"/>
+        </linearGradient>
+      </defs>
+      <rect width="40" height="40" rx="11" fill="#0e0f11"/>
+      <polyline points="8,13 20,31 32,13" fill="none" stroke="url(#efGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="12,10 20,22.5 28,10" fill="none" stroke="url(#efGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+    </svg>
+    <span class="brand-name"><span class="brand-chrome">Estación</span><span class="brand-accent">Fitness</span></span>
+  </div>
+  <span id="streak-pill" class="streak-pill"><svg class="icon-sm"><use href="#icon-flame"/></svg>0</span>
+</header>
+
+<main id="app">
+
+  <!-- INICIO -->
+  <section id="view-inicio" class="view">
+    <div class="card hero-card">
+      <div class="hero-top">
+        <div>
+          <div class="big-number" id="streak-current">0</div>
+          <div class="muted">días de racha</div>
+        </div>
+        <svg class="hero-flame"><use href="#icon-flame"/></svg>
+      </div>
+      <div id="today-status" class="hero-status muted small"></div>
+      <div class="quick-actions-row">
+        <button id="btn-mark-trained" class="quick-toggle-btn">
+          <svg class="icon"><use href="#icon-flame"/></svg>
+          <span>Entrené</span>
+        </button>
+        <button id="btn-mark-rest" class="quick-toggle-btn rest">
+          <svg class="icon"><use href="#icon-moon"/></svg>
+          <span>Descanso</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div id="week-strip" class="week-strip"></div>
+    </div>
+
+    <div class="stats-row">
+      <div class="card stat-card">
+        <div class="stat-value" id="streak-longest">0</div>
+        <div class="muted small">racha más larga</div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-value" id="streak-trained">0</div>
+        <div class="muted small">entrenados</div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-value" id="streak-rest">0</div>
+        <div class="muted small">descansos</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="cal-header">
+        <button id="cal-prev" class="btn btn-icon" aria-label="Mes anterior"><svg class="icon-sm"><use href="#icon-chevron-left"/></svg></button>
+        <span id="cal-month-label"></span>
+        <button id="cal-next" class="btn btn-icon" aria-label="Mes siguiente"><svg class="icon-sm"><use href="#icon-chevron-right"/></svg></button>
+      </div>
+      <div class="cal-weekdays">
+        <span>L</span><span>M</span><span>X</span><span>J</span><span>V</span><span>S</span><span>D</span>
+      </div>
+      <div id="calendar-grid" class="cal-grid"></div>
+      <div class="cal-legend">
+        <span><i class="dot dot-trained"></i>Entrenado</span>
+        <span><i class="dot dot-rest"></i>Descanso</span>
+        <span><i class="dot dot-empty"></i>Sin registro</span>
+      </div>
+      <p class="muted small">Toca un día para marcarlo (entrenado → descanso → sin registro).</p>
+    </div>
+  </section>
+
+  <!-- PESO -->
+  <section id="view-peso" class="view hidden">
+    <div class="card">
+      <h2><svg class="icon-sm"><use href="#icon-scale"/></svg> Registrar peso corporal</h2>
+      <form id="form-weight" class="quick-inline-form">
+        <div class="stepper" data-step="0.5">
+          <button type="button" class="step-btn step-minus">−</button>
+          <input type="number" id="weight-value" inputmode="decimal" placeholder="Peso (kg)" step="0.1" min="0" required>
+          <button type="button" class="step-btn step-plus">+</button>
+        </div>
+        <input type="date" id="weight-date" required>
+        <button type="submit" class="btn btn-primary btn-full">Guardar</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>Progreso</h2>
+      <div id="weight-chart" class="chart-wrap"></div>
+    </div>
+
+    <div class="card">
+      <h2>Historial</h2>
+      <div id="weight-list" class="entry-list"></div>
+    </div>
+  </section>
+
+  <!-- EJERCICIOS -->
+  <section id="view-ejercicios" class="view hidden">
+    <button id="btn-repeat-exercise" class="card repeat-card hidden">
+      <svg class="icon"><use href="#icon-repeat"/></svg>
+      <div>
+        <div class="repeat-title">Repetir última serie</div>
+        <div id="repeat-detail" class="muted small"></div>
+      </div>
+    </button>
+
+    <div class="card">
+      <h2><svg class="icon-sm"><use href="#icon-dumbbell"/></svg> Registrar ejercicio</h2>
+      <form id="form-exercise" class="quick-inline-form">
+        <input type="text" id="ex-name" list="ex-names" placeholder="Ejercicio (ej. Press banca)" required>
+        <datalist id="ex-names"></datalist>
+
+        <div class="field-row">
+          <label class="field-label">Peso (kg)</label>
+          <div class="stepper" data-step="2.5">
+            <button type="button" class="step-btn step-minus">−</button>
+            <input type="number" id="ex-weight" inputmode="decimal" min="0" step="0.5" required>
+            <button type="button" class="step-btn step-plus">+</button>
+          </div>
+        </div>
+        <div class="field-row">
+          <label class="field-label">Reps</label>
+          <div class="stepper" data-step="1">
+            <button type="button" class="step-btn step-minus">−</button>
+            <input type="number" id="ex-reps" inputmode="numeric" min="1" required>
+            <button type="button" class="step-btn step-plus">+</button>
+          </div>
+        </div>
+        <div class="field-row">
+          <label class="field-label">Series</label>
+          <div class="stepper" data-step="1">
+            <button type="button" class="step-btn step-minus">−</button>
+            <input type="number" id="ex-sets" inputmode="numeric" min="1" value="1" required>
+            <button type="button" class="step-btn step-plus">+</button>
+          </div>
+        </div>
+        <input type="date" id="ex-date" required>
+        <button type="submit" class="btn btn-primary btn-full">Guardar</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>Progreso por ejercicio</h2>
+      <select id="ex-select"></select>
+      <div id="ex-chart" class="chart-wrap"></div>
+    </div>
+
+    <div class="card">
+      <h2>Historial</h2>
+      <div id="ex-list" class="entry-list"></div>
+    </div>
+  </section>
+
+  <!-- DATOS -->
+  <section id="view-datos" class="view hidden">
+    <div class="card">
+      <h2><svg class="icon-sm"><use href="#icon-folder"/></svg> Respaldo de datos</h2>
+      <p class="muted small">Tus datos se guardan automáticamente en este navegador (localStorage). Usa esto para hacer respaldo o pasar tus datos a otra computadora.</p>
+      <div class="btn-col">
+        <button id="btn-export-json" class="btn"><svg class="icon-sm"><use href="#icon-download"/></svg>Exportar todo (JSON)</button>
+        <button id="btn-export-csv-gym" class="btn"><svg class="icon-sm"><use href="#icon-download"/></svg>Exportar racha (CSV)</button>
+        <button id="btn-export-csv-weight" class="btn"><svg class="icon-sm"><use href="#icon-download"/></svg>Exportar peso corporal (CSV)</button>
+        <button id="btn-export-csv-ex" class="btn"><svg class="icon-sm"><use href="#icon-download"/></svg>Exportar ejercicios (CSV)</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Importar</h2>
+      <p class="muted small">Importar un JSON <strong>reemplaza</strong> todos los datos actuales.</p>
+      <input type="file" id="file-import" accept="application/json">
+    </div>
+
+    <div class="card">
+      <h2 class="danger-title">Zona de peligro</h2>
+      <button id="btn-clear-all" class="btn btn-danger"><svg class="icon-sm"><use href="#icon-trash"/></svg>Borrar todos los datos</button>
+    </div>
+  </section>
+
+</main>
+
+<nav class="bottom-nav">
+  <button class="nav-btn active" data-view="inicio"><svg class="icon"><use href="#icon-flame"/></svg><span>Inicio</span></button>
+  <button class="nav-btn" data-view="peso"><svg class="icon"><use href="#icon-scale"/></svg><span>Peso</span></button>
+  <button class="nav-btn" data-view="ejercicios"><svg class="icon"><use href="#icon-dumbbell"/></svg><span>Ejercicios</span></button>
+  <button class="nav-btn" data-view="datos"><svg class="icon"><use href="#icon-folder"/></svg><span>Datos</span></button>
+</nav>
+
+<button id="fab" class="fab" aria-label="Registro rápido">
+  <svg class="icon"><use href="#icon-plus"/></svg>
+</button>
+
+<div id="sheet-backdrop" class="sheet-backdrop hidden"></div>
+<div id="quick-sheet" class="quick-sheet hidden">
+  <div class="quick-sheet-head">
+    <span class="quick-sheet-handle"></span>
+    <button id="qs-close" class="btn btn-icon" aria-label="Cerrar"><svg class="icon-sm"><use href="#icon-close"/></svg></button>
+  </div>
+  <h3>Registro rápido</h3>
+
+  <div class="quick-actions-row">
+    <button id="qs-trained" class="quick-toggle-btn">
+      <svg class="icon"><use href="#icon-flame"/></svg>
+      <span>Entrené</span>
+    </button>
+    <button id="qs-rest" class="quick-toggle-btn rest">
+      <svg class="icon"><use href="#icon-moon"/></svg>
+      <span>Descanso</span>
+    </button>
+  </div>
+
+  <div class="quick-divider"></div>
+
+  <form id="qs-weight-form" class="quick-inline-form">
+    <label class="field-label"><svg class="icon-sm"><use href="#icon-scale"/></svg> Peso de hoy</label>
+    <div class="stepper" data-step="0.5">
+      <button type="button" class="step-btn step-minus">−</button>
+      <input type="number" id="qs-weight-value" inputmode="decimal" placeholder="kg" step="0.1" min="0">
+      <button type="button" class="step-btn step-plus">+</button>
+    </div>
+    <button type="submit" class="btn btn-primary btn-full">Guardar peso</button>
+  </form>
+
+  <div class="quick-divider"></div>
+
+  <button id="qs-repeat-exercise" class="btn btn-outline btn-full hidden">
+    <svg class="icon-sm"><use href="#icon-repeat"/></svg>
+    <span id="qs-repeat-label"></span>
+  </button>
+  <button id="qs-goto-exercise" class="btn btn-full">
+    <svg class="icon-sm"><use href="#icon-dumbbell"/></svg>
+    <span>Registrar otro ejercicio</span>
+  </button>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
