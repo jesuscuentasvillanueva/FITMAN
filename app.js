@@ -2,12 +2,32 @@
   "use strict";
 
   const STORAGE_KEY = "fitman_data_v1";
+  const THEME_KEY = "ef_theme";
   const DEFAULT_EXERCISES = ["Press banca", "Sentadilla", "Peso muerto", "Press militar", "Dominadas", "Remo con barra"];
   const WEEKDAY_LETTERS = ["L", "M", "X", "J", "V", "S", "D"];
 
   let data = loadData();
   let calDate = new Date();
   calDate.setDate(1);
+
+  // ---------- theme ----------
+  function effectiveTheme() {
+    const stored = localStorage.getItem(THEME_KEY);
+    if (stored === "dark" || stored === "light") return stored;
+    return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+  }
+  function applyTheme() {
+    const stored = localStorage.getItem(THEME_KEY);
+    if (stored === "dark" || stored === "light") document.documentElement.setAttribute("data-theme", stored);
+    else document.documentElement.removeAttribute("data-theme");
+    const btn = document.getElementById("theme-toggle");
+    if (btn) btn.querySelector("use").setAttribute("href", effectiveTheme() === "dark" ? "#icon-moon" : "#icon-sun");
+  }
+  function toggleTheme() {
+    localStorage.setItem(THEME_KEY, effectiveTheme() === "dark" ? "light" : "dark");
+    applyTheme();
+  }
+  applyTheme();
 
   // ---------- storage ----------
   function loadData() {
@@ -659,6 +679,7 @@
   }
 
   function init() {
+    document.getElementById("theme-toggle").addEventListener("click", toggleTheme);
     initNav();
     initCalendarNav();
     initHomeButtons();

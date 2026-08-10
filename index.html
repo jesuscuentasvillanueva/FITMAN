@@ -23,6 +23,7 @@
   <symbol id="icon-repeat" viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></symbol>
   <symbol id="icon-download" viewBox="0 0 24 24"><path d="M12 3v12"/><polyline points="7 10 12 15 17 10"/><path d="M5 21h14"/></symbol>
   <symbol id="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+  <symbol id="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.9" y1="4.9" x2="6.3" y2="6.3"/><line x1="17.7" y1="17.7" x2="19.1" y2="19.1"/><line x1="4.9" y1="19.1" x2="6.3" y2="17.7"/><line x1="17.7" y1="6.3" x2="19.1" y2="4.9"/></symbol>
 </svg>
 
 <header class="topbar">
@@ -40,7 +41,12 @@
     </svg>
     <span class="brand-name"><span class="brand-chrome">Estación</span><span class="brand-accent">Fitness</span></span>
   </div>
-  <span id="streak-pill" class="streak-pill"><svg class="icon-sm"><use href="#icon-flame"/></svg>0</span>
+  <div class="header-actions">
+    <button id="theme-toggle" class="btn btn-icon theme-toggle" aria-label="Cambiar tema">
+      <svg class="icon-sm"><use href="#icon-moon"/></svg>
+    </button>
+    <span id="streak-pill" class="streak-pill"><svg class="icon-sm"><use href="#icon-flame"/></svg>0</span>
+  </div>
 </header>
 
 <main id="app">
